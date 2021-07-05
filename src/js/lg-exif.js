@@ -105,43 +105,26 @@
         const _this = this;
         const thumbnail = this.core.$items.get(this.core.index);
 
-        // Check if we should use data attributes (thumbsup) or exif
-        let useData = thumbnail.dataset.filename;
-        if (useData) {
-            _this.exif = {
-                Filename: thumbnail.dataset.filename,
-                DateTimeOriginal: thumbnail.dataset.datetimeoriginal,
-                // SourceResolution: thumbnail.dataset.sourceresolution,
-                FNumber: thumbnail.dataset.fnumber,
-                ExposureTime: thumbnail.dataset.exposuretime,
-                ISOSpeedRatings: thumbnail.dataset.isospeedratings,
-                FocalLength: thumbnail.dataset.focallength,
-                LensModel: thumbnail.dataset.lensmodel,
-                Model: thumbnail.dataset.model,
-                Make: thumbnail.dataset.make,
-                GPSLatitude: thumbnail.dataset.gpslatitude,
-                GPSLongitude: thumbnail.dataset.gpslongitude,
-                GPSLatitudeRef: thumbnail.dataset.gpslatituderef,
-                GPSLongitudeRef: thumbnail.dataset.gpslongituderef,
-                GPSAltitude: thumbnail.dataset.gpsaltitude,
-            };
+        _this.exif = {
+            Filename: thumbnail.dataset.filename,
+            DateTimeOriginal: thumbnail.dataset.datetimeoriginal,
+            // SourceResolution: thumbnail.dataset.sourceresolution,
+            FNumber: thumbnail.dataset.fnumber,
+            ExposureTime: thumbnail.dataset.exposuretime,
+            ISOSpeedRatings: thumbnail.dataset.isospeedratings,
+            FocalLength: thumbnail.dataset.focallength,
+            LensModel: thumbnail.dataset.lensmodel,
+            Model: thumbnail.dataset.model,
+            Make: thumbnail.dataset.make,
+            GPSLatitude: thumbnail.dataset.gpslatitude,
+            GPSLongitude: thumbnail.dataset.gpslongitude,
+            GPSLatitudeRef: thumbnail.dataset.gpslatituderef,
+            GPSLongitudeRef: thumbnail.dataset.gpslongituderef,
+            GPSAltitude: thumbnail.dataset.gpsaltitude,
+        };
 
-            _this.exif.Geo = _this.getGeo();
-            _this.renderExif();
-        } else {
-            const img = $(thumbnail).find('img').get(0);
-
-            EXIF.getData(img, function () {
-                _this.exif = EXIF.getAllTags(this);
-                _this.exif.Filename = img.src.replace(/^.*[\\\/]/, '');
-                
-                // Keeping this out for now since it is not reliable, might need a mix of things for resolution
-                // _this.exif.SourceResolution = _this.exif.PixelXDimension + "x" + _this.exif.PixelYDimension;
-
-                _this.exif.Geo = _this.getGeo();
-                _this.renderExif();
-            });
-        }
+        _this.exif.Geo = _this.getGeo();
+        _this.renderExif();
 
         // Testing code only applicable for the example
         if (typeof USE_DATA_ATTRIBUTES !== "undefined") {
